@@ -1,0 +1,22 @@
+public class Solution {
+    // DO NOT MODIFY THE ARGUMENTS WITH "final" PREFIX. IT IS READ ONLY
+    public int[] twoSum(final int[] A, int B) {
+        Map<Integer,Integer> map = new HashMap();
+        int []result = new int[2];
+        for(int i = 0 ; i<A.length;i++){
+            int target = B-A[i];
+            if(map.containsKey(B-A[i])){
+                result[0] = map.get(B-A[i])+1;
+                result[1] = i+1;
+                return result;
+            }
+            else{
+                 if(!map.containsKey(A[i]))
+                    map.put(A[i],i);
+            }
+        }
+        
+        return new int[0];
+        
+    }
+}
