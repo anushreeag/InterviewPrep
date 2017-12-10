@@ -1,0 +1,62 @@
+public class Solution {
+	public int maxPoints(ArrayList<Integer> a, ArrayList<Integer> b) {
+	    int maxPoints = 0 ;
+	    if(a.size()==0) return 0;
+	    if(a.size()==1) return 1;
+	    for(int i = 0 ;i<a.size();i++){
+	        int curMaxPoints = 0;
+	        int sameAsI = 0;
+	        HashMap<String,Integer> slopeMap = new HashMap<>();
+	        for(int j = i ; j<a.size();j++){
+	            if(a.get(j)==a.get(i)&& b.get(j)==b.get(i)){
+	             sameAsI++;
+	             continue;
+	         }
+	            String slope = calculateSlope(a.get(i),b.get(i),a.get(j),b.get(j));
+	            if(slopeMap.containsKey(slope)){
+	                slopeMap.put(slope,slopeMap.get(slope)+1);
+	               
+	            }
+	            else{
+	                slopeMap.put(slope,1);
+	                
+	            }
+	             if(curMaxPoints<slopeMap.get(slope)){
+	                    curMaxPoints = slopeMap.get(slope);
+	                }
+	        }
+	        if(maxPoints<curMaxPoints+sameAsI){
+	            maxPoints = curMaxPoints+sameAsI;
+	        }
+	    }
+	    return maxPoints;
+	}
+	
+	private String calculateSlope(int x1, int y1, int x2, int y2){
+	    int deltaX = x2-x1;
+	    int deltaY = y2-y1;
+	    boolean negativeSlope = (deltaX>0&&deltaY<0)|| (deltaY>0&&deltaX<0);
+	    deltaX = Math.abs(deltaX);
+	    deltaY = Math.abs(deltaY);
+	    int gcd = findGcd(deltaX,deltaY);
+	    if(gcd!=0){
+	        deltaX = deltaX/gcd;
+	        deltaY = deltaY/gcd;
+	    }
+	    
+	    StringBuffer slopeStr = new StringBuffer();
+	    slopeStr.append(deltaX).append(",").append(deltaY).append(negativeSlope);
+	    //System.out.println(slopeStr.toString());
+	    return slopeStr.toString();
+	}
+	
+	private int findGcd(int deltaX, int deltaY){
+	    int r = 0 ;
+	    while(deltaY!=0){
+	        r = deltaX%deltaY;
+	        deltaX = deltaY;
+	        deltaY=r;
+	    }
+	    return deltaX;
+	}
+}

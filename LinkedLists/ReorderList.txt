@@ -1,0 +1,77 @@
+/**
+ * Definition for singly-linked list.
+ * class ListNode {
+ *     public int val;
+ *     public ListNode next;
+ *     ListNode(int x) { val = x; next = null; }
+ * }
+ */
+public class Solution {
+    public ListNode reorderList(ListNode A) {
+        ListNode temp1 = A;
+        ListNode B = A;
+        ListNode temp2 = A;
+        if(A.next==null) return A;
+        int len = 0;
+        while(temp2.next!=null){
+            len++;
+            temp2 = temp2.next;
+        }
+        len++;
+        int i = 0;
+        temp2 = A;
+        while(i<len/2-1){
+            temp2 = temp2.next;
+            i++;
+        }
+        B = temp2.next;
+       temp2.next = null;
+        B = reverse(B);
+
+        A = merge(A,B);
+
+        return A;
+    }
+    
+    private ListNode reverse(ListNode B){
+        ListNode cur = B;
+        ListNode next = null;
+        ListNode prev = null;
+        while(cur!=null){
+            next = cur.next;
+            cur.next = prev;
+            prev = cur;
+            cur = next;
+        }
+        B = prev;
+        return B;
+        
+    }
+    
+    private ListNode merge(ListNode A, ListNode B){
+        ListNode temp1 = A;
+        ListNode temp2 = B;
+        ListNode prev = null;
+        
+        while(temp1!=null){
+            ListNode temp3 = temp1.next;
+            ListNode temp4 = temp2.next;
+            temp1.next = temp2;
+            temp2.next = temp3;
+            prev = temp1.next;
+            temp1 = temp3;
+            temp2 = temp4;
+        }
+
+        prev.next = temp2;
+        return A;
+    }
+    
+    void print(ListNode A){
+        ListNode temp = A;
+        while(temp!=null){
+            System.out.print(" "+temp.val);
+            temp = temp.next;
+        }
+    }
+}

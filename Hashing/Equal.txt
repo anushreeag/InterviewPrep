@@ -1,0 +1,59 @@
+public class Solution {
+    public int[] equal(int[] A) {
+        HashMap<Integer,ArrayList<Integer>> map = new HashMap<>();
+        int n = A.length;
+        ArrayList<ArrayList<Integer>> list1 = new ArrayList();
+        int result[] = new int[4];
+        for(int i = 0 ;i<n-1;i++){
+            for(int j = i+1;j<n;j++){
+                int sum = A[i]+A[j];
+                if(map.containsKey(sum)){
+                    ArrayList x = map.get(sum);
+                    if((int)x.get(0)<i && (int) x.get(1)!=i && (int) x.get(1)!=j)
+                    {
+                        ArrayList<Integer> list = new ArrayList();
+                        list.add((int)x.get(0));
+                        list.add((int)x.get(1));
+                        list.add(i);
+                        list.add(j);
+                        list1.add(list);
+                    }
+                    
+                }
+                else{
+                    ArrayList<Integer> list = new ArrayList();
+                    list.add(i);
+                    list.add(j);
+                    map.put(sum,list);
+                }
+            }
+        }
+        if(list1.size()==0)
+            return new int[0];
+        
+         Collections.sort(list1, new Comparator<ArrayList<Integer>>(){
+            public int compare(ArrayList<Integer> s1, ArrayList<Integer> s2) {
+                if (s1.get(0) != s2.get(0)) {
+                    return s1.get(0).compareTo(s2.get(0));
+                }
+                else if (s1.get(1) != s2.get(1)) {
+                    return s1.get(1).compareTo(s2.get(1));
+                }
+                else if (s1.get(2) != s2.get(2)) {
+                    return s1.get(2).compareTo(s2.get(2));
+                }
+                else {
+                    return s1.get(3).compareTo(s2.get(3));
+                }
+            }
+        });
+        
+        result[0] = (int)list1.get(0).get(0);
+        result[1] = (int)list1.get(0).get(1);
+        result[2] = (int)list1.get(0).get(2);
+        result[3] = (int)list1.get(0).get(3);
+         return result;
+        
+        
+    }
+}

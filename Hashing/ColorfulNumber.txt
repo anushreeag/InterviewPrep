@@ -1,0 +1,35 @@
+public class Solution {
+    public int colorful(int A) {
+        
+        Set<Integer> set = new HashSet();
+        
+        String output = Integer.toString(A);
+        //System.out.println(output);
+        //System.out.println();
+        
+        for(int i = 0 ; i<output.length();i++){
+                int prod = output.charAt(i)-'0';
+                if(set.contains(prod)){
+                    return 0;
+                }
+                else{
+                    set.add(prod);
+                }
+                
+                //System.out.println(prod);
+            for(int j=i+1;j<output.length();j++){
+                int ch1 = output.charAt(j)-'0';
+                prod = prod * ch1;
+                if(set.contains(prod)){
+                    return 0;
+                }
+                else{
+                    set.add(prod);
+                }
+            }
+        }
+        
+        return 1;
+        
+    }
+}
