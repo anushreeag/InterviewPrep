@@ -1,0 +1,24 @@
+public class Solution {
+	public int pow(int x, int n, int d) {
+	    int val = power(Math.abs(x),n,d);
+	    if(x<0 && n%2==1) {
+	        if(val%d == 0) return 0;
+	        return d-(val%d);
+	    }
+	    return val%d;
+	        
+	    
+	}
+	
+	private int power(int x, int n, int d){
+	 
+	    if(n==0) return 1%d;
+	    if(n==1) return x%d;
+	    
+	    long val = power(x,n/2,d);
+	    int valsq = (int) ((val*val)% d);
+
+	    if(n%2==1) return (int) ((1L*valsq*x)%d);
+	    return valsq;
+	}
+}

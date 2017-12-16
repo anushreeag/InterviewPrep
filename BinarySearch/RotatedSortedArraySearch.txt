@@ -1,0 +1,42 @@
+public class Solution {
+	// DO NOT MODIFY THE LIST
+	public int search(final List<Integer> a, int b) {
+	    int i = 1;
+	   int pivot = greaterThanOrNot(a);
+	   if(b==a.get(pivot)) return pivot;
+	   if(b<a.get(0))
+	     return  binarySearch(a,pivot+1,a.size(),b);
+	   return binarySearch(a,0,pivot-1,b);
+
+	   
+	   
+	}
+	
+	
+	private int greaterThanOrNot(List<Integer> a){
+	    int low = 0, high = a.size()-1;
+	    while(low<=high){
+	        int mid = (low+high)/2;
+	        if(a.get(mid)>a.get(0)) low = mid+1;
+	        else high = mid-1;
+	        
+	    }
+	    return low-1;
+	    
+	}
+	
+	private int binarySearch(List<Integer> a, int low, int high, int b){
+	    while(low<=high){
+	        int mid = (low+high)/2;
+	        if(a.get(mid)==b) return mid;
+	        else if(a.get(mid)<b) low = mid+1;
+	        else
+	        high = mid-1;
+	        
+	    }
+	    
+	    return -1;
+	}
+	
+
+}
