@@ -1,0 +1,43 @@
+public class Solution {
+    public ArrayList<String> letterCombinations(String A) {
+        int selected[] = new int[A.length()];
+        Map<Character,String> phoneMap = new HashMap();
+        phoneMap.put('0',"0");
+        phoneMap.put('1',"1");
+        phoneMap.put('2',"abc");
+        phoneMap.put('3',"def");
+        phoneMap.put('4',"ghi");
+        phoneMap.put('5',"jkl");
+        phoneMap.put('6',"mno");
+        phoneMap.put('7',"pqrs");
+        phoneMap.put('8',"tuv");
+        phoneMap.put('9',"wxyz");
+        return func(0,phoneMap,A,selected);
+    }
+    
+    private ArrayList<String> func(int pos, Map<Character,String> map,String A,
+            int [] selected){
+        // All positions are filled 
+        if(pos>=A.length()) {// print
+            ArrayList<String> listStr = new ArrayList();
+            StringBuilder letters = new StringBuilder();
+            for(int i=0;i<selected.length;i++){
+                letters.append(map.get(A.charAt(i)).charAt(selected[i]));
+            }
+            listStr.add(letters.toString());
+            return listStr;
+        }
+        // Choices will be map.get(pos).length
+        ArrayList<String> listStr = new ArrayList();
+        for(int i=0;i<map.get(A.charAt(pos)).length();i++)
+        {
+            selected[pos] = i;
+            listStr.addAll(func(pos+1,map,A,selected));
+        }
+        
+        return listStr;
+        
+    }
+    
+    
+}

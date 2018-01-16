@@ -1,0 +1,45 @@
+public class Solution {
+
+    public ArrayList<ArrayList<Integer>> subsets(ArrayList<Integer> A) {
+        int selected[] = new int[A.size()];
+        Collections.sort(A);
+        return func(0,A);
+    }
+    
+    private ArrayList<ArrayList<Integer>> func(int pos, ArrayList<Integer> A){
+        
+        if(pos>=A.size()) {
+            ArrayList<ArrayList<Integer>> list  = new ArrayList<ArrayList<Integer>>();
+            list.add(new ArrayList<Integer>());
+            return list;
+            
+        }
+        else{
+
+                ArrayList<ArrayList<Integer>> temp = func(pos+1,A);
+                ArrayList<ArrayList<Integer>> newList = new ArrayList();
+                
+                for(ArrayList l : temp){
+                    ArrayList<Integer> list1 = new ArrayList();
+                    list1.add(A.get(pos));
+                    list1.addAll(l);
+                    newList.add(list1);
+                }
+                for(ArrayList l : temp){
+                    ArrayList<Integer> list1 = new ArrayList();
+                    list1.addAll(l);
+                    newList.add(list1);
+                }
+                for(int j=0;j<newList.size();j++){
+                   if(newList.get(j).size()==0) newList.remove(j);
+                }
+                newList.add(0,new ArrayList<Integer>());
+            return newList;
+            
+        }
+        
+        
+    }
+    
+    
+}
