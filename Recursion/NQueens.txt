@@ -1,0 +1,64 @@
+public class Solution {
+	public ArrayList<ArrayList<String>> solveNQueens(int a) {
+	    ArrayList<ArrayList<String>> result = new ArrayList();
+	    int []selected = new int[a];
+	    getNQueens(0,a,selected,result);
+	    
+	    return result;
+	}
+	
+	void getNQueens(int pos, int a, int []selected, ArrayList<ArrayList<String>> result){
+	    if(pos>=selected.length){
+	        
+	        ArrayList<String> list = new ArrayList();
+	        for(int i=0;i<selected.length;i++){
+	            StringBuilder dots = new StringBuilder();
+	            for(int j=1;j<a;j++){
+    	            dots.append(".");
+	            }
+	            if(selected[i]<dots.length()) dots.insert(selected[i],"Q");
+	            else dots.append("Q");
+	            
+	          // System.out.println(dots.toString()); 
+	           list.add(dots.toString());
+	            
+	        }
+	        result.add(list);
+	      
+	        return;
+	    }
+	    
+	    // pos indicates the row -- Queen No. and selected[pos] indicates col no.
+	    // no of options = no. of columns = a
+	    
+	    for(int i=0;i<a;i++){
+	        if(anyFight(pos,i,selected)){
+	            continue;
+	        }
+	        selected[pos] = i;
+	        getNQueens(pos+1,a,selected,result);
+	    }
+	    
+	}
+	
+	 // pos : row, j : col
+	boolean anyFight(int pos, int j, int []selected){
+	    // i indicates pos
+	    boolean Fight = false;
+	    for(int i=0;i<pos;i++){
+	        // columns are same j == q
+	        if(j==selected[i]){
+	            Fight = true;
+	            break;
+	        }
+	       // diagonally they can attack  = |i=p| == |j-q|  
+	        else if(Math.abs(pos-i)==Math.abs(j-selected[i])){
+	            Fight = true;
+	            break;
+	        }
+	    }
+	    return Fight;
+	}
+	
+	
+}

@@ -1,0 +1,14 @@
+public class Solution {
+    public int findMinXor(ArrayList<Integer> A) {
+        Collections.sort(A);
+        int minXOR = Integer.MAX_VALUE;
+        
+        for(int i=0;i<A.size()-1;i++){
+            int curXOR = A.get(i)^A.get(i+1);
+            minXOR = Math.min(minXOR,curXOR);
+            
+        }
+        
+        return minXOR;
+    }
+}

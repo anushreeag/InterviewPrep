@@ -1,0 +1,58 @@
+import java.math.BigInteger;
+public class Solution {
+ 
+    public String getPermutation(int A, int B) {
+        int n = A;
+        int []fact = new int[n+1];
+        Arrays.fill(fact,-1);
+       // findFactorial(n,fact);
+        fact[0]=1;
+        
+        StringBuilder builder = new StringBuilder();
+        ArrayList<Integer> values = new ArrayList();
+        for(int i=1;i<=A;i++){
+           values.add(i);
+        }
+
+        
+        // Get the block Index - rank/(n-1)!
+        // Get the permutation inside the block using - rank%(n-1)!
+        BigInteger rank = new BigInteger(""+B);
+        // Assume rank starts from 0
+        rank = rank.subtract(new BigInteger("1"));
+        while(n>0 && values.size()>0 )
+        {
+           // System.out.println("rank" + rank +" "+factorial(n-1) );
+            BigInteger blockIndex = rank.divide(factorial(n-1));
+            BigInteger new_rank = rank.mod(factorial(n-1));
+           // System.out.println("blockIndex" + blockIndex );
+            // Filling the position in builder
+            builder.append(values.get(blockIndex.intValue()));
+            // That element for the position is added, so remove the element from the list
+            values.remove(blockIndex.intValue()); 
+            n--; // reduce n by 1 
+            rank = new_rank;
+        }
+        
+        return builder.toString();
+    }
+    
+    // Keep the factorial array ready
+    int findFactorial(int n, int []fact){
+        if(n==0) return fact[0]=1;
+        if(n==1) return fact[1]=1;
+        if(fact[n]!=-1) return fact[n];
+        int ans = n * findFactorial(n-1,fact);
+        return fact[n]=ans;
+    }
+    
+    public static BigInteger factorial(int n) {
+       BigInteger fact = new BigInteger("1");
+       
+       for (int i = 1; i <= n; i++) {
+           fact = fact.multiply(new BigInteger(i + ""));
+       }
+       return fact;
+   }
+    
+}

@@ -1,0 +1,40 @@
+public class Solution {
+    // DO NOT MODIFY THE LIST. IT IS READ ONLY
+    public int singleNumber(final List<Integer> A) {
+        // count the number of 1's in every bit of the number of all the numbers and set the ans
+        // to count the 1's prepare a mask so that only that ith bit the masked to 1
+        // ex: 0001 is the mask for 0th bit so A[j] & 0001 -- will give value of ith bit
+        // so mask will be (1<<i) for every bit to know the value of bit
+        // if this count%3 ==0  - That means bit at that position is 0
+        // if this count%3 == 1 - that means bit is 1 at that position
+        //
+        int ans = 0;
+        
+        for(int i=0;i<32;i++){
+            int count = 0;
+            for(int j=0;j<A.size();j++){
+               int temp = A.get(j);
+               temp = temp & (1<<i); // mask for that bit position
+               if(temp>0) count++; // because for i=1, mask will be 0010 -- so ans 
+               // might become 2 - int value of 0010 -- so 
+               //we need to check >0 instead of bitvalue==1
+               
+            }
+            // even number is the one which is missing
+            // why%3 is because every number appears thrice
+            if(count%3==0) 
+            {
+                // dont do anything to ans
+                // ideally we should set ith bit to 0 but its already 0
+                
+            }
+            // odd number is missing
+            else {
+                ans = ans | (1<<i); // setting the ith bit
+            }
+            
+        }
+        
+        return ans;
+    }
+}

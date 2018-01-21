@@ -1,0 +1,28 @@
+public class Solution {
+    // Numbers should start with 1
+    public ArrayList<ArrayList<Integer>> combine(int A, int B) {
+        ArrayList<ArrayList<Integer>> result = new ArrayList();
+        int []selected = new int[B];
+        getCombinations(0,A, selected,result,0);
+        return result;
+    }
+    
+    void getCombinations(int pos, int A, int [] selected,
+        ArrayList<ArrayList<Integer>> result, int lastIndex ){
+        if(pos>=selected.length){
+            ArrayList<Integer> curComb = new ArrayList();
+            for(int i=0;i<selected.length;i++)
+                curComb.add(selected[i]);
+            // print
+            result.add(curComb);
+            return;
+        }
+        
+        for(int i=lastIndex+1;i<=A;i++){
+            selected[pos] = i;
+            lastIndex = i;
+            getCombinations(pos+1,A,selected,result,lastIndex);
+        }
+    }
+    
+}
