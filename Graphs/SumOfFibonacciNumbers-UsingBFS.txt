@@ -1,0 +1,46 @@
+public class Solution {
+    public int fibsum(int A) {
+        
+        ArrayList<Integer> fibList = new ArrayList();
+        fibList.add(1); // start with only 1 
+        int k = 2;
+        int index = 1;
+        while(k<=A){
+            fibList.add(k);
+            k = k+fibList.get(index-1);
+            index++;
+           
+        }
+        // for Visited
+        Set<Integer> visited = new HashSet();
+        // for distance 
+        Map<Integer,Integer> distanceMap = new HashMap();
+        Queue<Integer> queue = new LinkedList();
+        queue.add(A) ;// Add source to queue
+        visited.add(A);
+        distanceMap.put(A,0); // Distance of node to itself is 0
+        
+        while(queue.size()>0){
+            int x = queue.poll();
+            
+            // if the node value is 0, then we have reached the sum = A, so return 
+            if(x==0) return distanceMap.get(x);
+ 
+            // Need to look fib elements <=x only
+            for(int i=fibList.size()-1;i>=0;i--){
+                int nx = x-fibList.get(i); // Next Node
+                if(nx<0) continue;
+                if(!visited.contains(nx)){
+                    visited.add(nx);
+                    distanceMap.put(nx,distanceMap.get(x)+1);
+                    queue.add(nx);
+                }
+            }
+        }
+    
+    return -1;    
+        
+    }
+    
+    
+}

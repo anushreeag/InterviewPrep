@@ -1,0 +1,29 @@
+public class Solution {
+    public ArrayList<Integer> solve(int A, int B, int C, int D) {
+      // Since here level is not the priority, we need the values in ascending order
+      // Use one level queue for all nodes
+      PriorityQueue<Integer> level = new PriorityQueue();
+      ArrayList<Integer> result = new ArrayList();
+        Set<Integer> visited = new HashSet();
+        level.add(1);
+        visited.add(1);
+        
+        while(level.size()>0 && result.size()!=D){
+                int cur = level.poll();
+                if(cur!=1)result.add(cur);
+                if(!visited.contains(cur*A)) {
+                    level.add(cur*A);
+                    visited.add(cur*A);
+                }
+                if(!visited.contains(cur*B)) {
+                    level.add(cur*B);
+                    visited.add(cur*B);
+                }
+                if(!visited.contains(cur*C)) {
+                    level.add(cur*C); 
+                    visited.add(cur*C);
+                }
+        }
+      return result;
+    }
+}

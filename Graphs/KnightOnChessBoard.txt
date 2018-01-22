@@ -1,0 +1,48 @@
+public class Solution {
+    public int knight(int A, int B, int C, int D, int E, int F) {
+        // to make indices 0 based
+        C--;
+        D--;
+        E--;
+        F--;
+        // 8 moves will be there for a knight at any position
+        int [] dx = {-2,-2,-1,1,2,2,1,-1} ;
+        int [] dy = {-1,1,2,2,1,-1,-2,-2} ;
+        int m = A;
+        int n = B;
+        boolean visited[][] = new boolean [m][n];
+        int distance[][] = new int [m][n];
+        Queue<Integer> queue = new LinkedList<Integer>();
+        
+        // Add the source points to queue
+        queue.add(C);
+        queue.add(D);
+        visited[C][D] = true ; //make the source node visited
+        distance[C][D] = 0; // because this is source node
+        
+        // This loop will calculate the distance of whole board from source to any point
+        while(queue.size()>0){
+            int x = queue.poll();
+            int y = queue.poll();
+            if(x==E && y==F) return distance[x][y];
+            for(int i=0;i<8;i++){
+                int nx = x+dx[i];
+                int ny = y+dy[i];
+                
+                if(isValid(nx,ny,m,n) && !visited[nx][ny]){
+                    queue.add(nx);
+                    queue.add(ny);
+                    visited[nx][ny]=true;
+                    distance[nx][ny]=1+distance[x][y];
+                }
+            }
+        }
+        return -1;
+        
+    }
+    
+    public boolean isValid(int nx, int ny, int m, int n){
+        if(nx<0||ny<0||nx>=m||ny>=n) return false;
+        return true;
+    }
+}
