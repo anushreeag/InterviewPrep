@@ -1,0 +1,50 @@
+/**
+ * Definition for undirected graph.
+ * class UndirectedGraphNode {
+ *     int label;
+ *     List<UndirectedGraphNode> neighbors;
+ *     UndirectedGraphNode(int x) { label = x; neighbors = new ArrayList<UndirectedGraphNode>(); }
+ * };
+ */
+public class Solution {
+    public UndirectedGraphNode cloneGraph(UndirectedGraphNode node) {
+        /* Algo
+        Keep HashMap to track the cloned graph : this behaves as visited array.
+        Create new nodes if its not there in cloned graph
+        Keep adding the nodes of original graph to queue 
+        so we can use bfs here on the queue
+        */
+        
+        if(node==null) return null;
+        // To track visited nodes on new graph
+        Map<Integer,UndirectedGraphNode> map = new HashMap();
+        UndirectedGraphNode newNode = new UndirectedGraphNode(node.label);
+        map.put(node.label,newNode); // add node of cloned graph to map
+        
+        Queue<UndirectedGraphNode> queue = new LinkedList();
+        queue.add(node); // add first node of original graph
+        
+        while(!queue.isEmpty()){
+            UndirectedGraphNode cur = queue.poll();
+            // Traverse through the neighbour nodes of cur
+            
+            List<UndirectedGraphNode> neighbors_list = cur.neighbors;
+            for(UndirectedGraphNode neighbor : neighbors_list ){
+                // If map doesnt have this node, means new graph doesnt have this node
+                if(!map.containsKey(neighbor.label)){
+                    UndirectedGraphNode newNeighbourNode = new UndirectedGraphNode(neighbor.label);
+                    map.put(neighbor.label,newNeighbourNode);
+                    queue.add(neighbor);
+                }
+                // add to neighbours list
+                map.get(cur.label).neighbors.add(map.get(neighbor.label)); 
+            }
+            
+        }
+        
+        // root of the graph
+        return newNode;
+        
+        
+    }
+}

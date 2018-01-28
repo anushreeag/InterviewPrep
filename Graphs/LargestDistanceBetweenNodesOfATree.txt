@@ -1,0 +1,76 @@
+public class Solution {
+    ArrayList<ArrayList<Integer>> adj;
+    int count = 0;
+    int maxDia=0;
+    public int solve(ArrayList<Integer> A) {
+        
+        int root = -1;
+        // n : no of nodes
+        int n = A.size();
+        adj = new ArrayList();
+        for(int i=0;i<n;i++)
+            adj.add(new ArrayList());
+        for(int i=0;i<n;i++){
+            int parent = A.get(i);
+            if(parent>-1) adj.get(parent).add(i);
+            else root = i;
+        }
+        
+       /* for(int i=0;i<n;i++){
+            System.out.println(" i "+ i+" size" +adj.get(i).size());
+        }*/
+        
+        
+      
+           // Call dfs on every node
+           
+           HeightNode curNode = dfs(root);
+           int curDia = Math.max(curNode.dia,curNode.depth);
+           maxDia = Math.max(maxDia,curDia);
+           
+       
+       
+       return maxDia-1;
+        
+    }
+    class HeightNode
+    {
+        int dia;
+        int depth;
+        
+        HeightNode(int di, int dep){
+            dia = di;
+            depth = dep;
+        }
+        
+    }
+    // No visited array is required since it is a tree : no loop will be there
+    HeightNode dfs(int index){
+        ArrayList<Integer> dias = new ArrayList();
+        ArrayList<Integer> hts = new ArrayList();
+        hts.add(0);
+        hts.add(0);
+        
+        
+        // get the Adjacency list of an index
+        ArrayList<Integer> children = adj.get(index);
+        // base case
+        if(children.size()==0) return new HeightNode(0,1);
+        for(int i=0;i<children.size();i++){
+            HeightNode X = dfs(children.get(i));
+            dias.add(X.dia);
+            hts.add(X.depth);
+        }
+        
+        HeightNode Z = new HeightNode(0,0);
+        Collections.sort(dias);
+        Collections.sort(hts);
+        int MaxD1ht = hts.get(hts.size()-1);
+        int MaxD2ht = hts.get(hts.size()-2);
+        Z.depth = 1+MaxD1ht; // Max of height
+        
+        Z.dia = Math.max(Math.max(Z.depth,dias.get(dias.size()-1)),1+MaxD1ht+MaxD2ht);
+        return Z;
+    }
+    
+}

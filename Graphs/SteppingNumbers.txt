@@ -1,0 +1,44 @@
+public class Solution {
+    public ArrayList<Integer> stepnum(int A, int B) {
+        Queue<Integer> queue = new LinkedList();
+        ArrayList<Integer> result = new ArrayList();
+        
+        // start from 1 even if N is anything
+        // Because starting from N will eliminate many numbers
+        // like if N is 20 , we might lose numbers starting from 1 like 101, 1012 etc
+        
+        for(int i=1;i<=9;i++)
+            queue.add(i);
+        if(A==0) result.add(0);    
+        while(!queue.isEmpty()){
+            int cur = queue.poll();
+            
+            // Ignore the elements greater
+            if(cur>B) break;
+            
+            if(cur>=A && cur<=B)
+                result.add(cur);
+            
+            int rem = cur%10;
+            
+            // get the -1 and +1 element
+            
+            
+            // Because 10 - 9 gets added to the queue again or 100-1 : 99 gets added to queue
+            // 99 is wrong
+            if(rem>0){
+                int lesser = cur*10+(rem-1);
+                queue.add(lesser);
+            }
+            
+            // Reminder is 9, ignore +1 - because 9+1  10 or 99+1 = 100 gets added and 
+            // 100 or 1000 -  adjacent digits do not have difference of 1
+            if(rem<9){ 
+                int greater = cur*10+(rem+1);
+                queue.add(greater);
+                }
+        }
+            
+        return result;   
+    }
+}

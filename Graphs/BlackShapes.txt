@@ -1,0 +1,50 @@
+public class Solution {
+    public int black(ArrayList<String> A) {
+        // n*m matrix
+        boolean visited[][] = new boolean[A.size()][A.get(0).length()];
+        int count = 0;
+        int rows = A.size();
+        int cols = A.get(0).length();
+        for(int i=0;i<rows;i++){
+            if(A.get(i).length()!=cols)
+                return 0; // all strings must be of equal length
+        }
+        for(int i=0;i<rows;i++){
+            for(int j=0;j<cols;j++){
+                char ch = A.get(i).charAt(j);
+                if(ch=='X' && !visited[i][j]){
+                    // Using dfs find other X
+                    count++;
+                    findOtherX(A,visited,i,j,rows,cols);
+                    
+                }
+            }
+        }
+        
+        return count;
+
+    }
+    
+    // Find the X using dfs
+    void findOtherX(ArrayList<String> A, boolean[][]visited, int x, 
+                int y, int rows, int cols){
+        int []dx = {-1,0,1,0};
+        int []dy = {0,1,0,-1};
+        visited[x][y] = true;
+        for(int i=0;i<4;i++){
+            int nx = x+dx[i];
+            int ny = y+dy[i];
+            // nx, ny should be valid, visited should be false and 
+            //char should be X, only then dfs
+            if(isValid(nx,ny,rows,cols)&& !visited[nx][ny] && A.get(nx).charAt(ny)=='X')
+                findOtherX(A,visited,nx,ny,rows,cols);
+        }
+    }
+    
+    
+    boolean isValid(int nx, int ny, int m, int n){
+        if(nx<0||ny<0||nx>=m||ny>=n) return false;
+        return true;
+        
+    }
+}

@@ -1,0 +1,64 @@
+/**
+ * Definition for binary tree
+ * class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+/**
+ * Definition for singly-linked list.
+ * class ListNode {
+ *     public int val;
+ *     public ListNode next;
+ *     ListNode(int x) { val = x; next = null; }
+ * }
+ */
+public class Solution {
+	public TreeNode sortedListToBST(ListNode a) {
+	    return buildBST(a);
+	}
+	
+	TreeNode buildBST(ListNode a){
+	    if(a==null) return null;
+	    if(a.next==null) return new TreeNode(a.val);
+	    int len = getLength(a);
+	    int mid = len/2;
+	   // System.out.println("mid "+mid);
+	    ListNode midNode = getNode(a,mid);
+	    
+	    TreeNode cur = new TreeNode(midNode.val);
+	   // System.out.println("midNode "+midNode.val);
+	    ListNode midNode_1 = getNode(a,mid-1);
+	    if(midNode_1!=null) midNode_1.next=null;
+	    cur.left = buildBST(a);
+	    cur.right = buildBST(midNode.next);
+	    
+	    return cur;
+	}
+	
+	int getLength(ListNode a ){
+	    ListNode temp = a;
+	    int len = 0;
+	    while(temp!=null){
+	        len++;
+	        temp=temp.next;
+	    }
+	    return len;
+	}
+	
+	ListNode getNode(ListNode a, int index){
+	   // System.out.println("getNode "+index);
+	    if(index<0) return null;
+	    if(index>getLength(a)) return null;
+	    
+	    ListNode cur = a;
+	    int i =0;
+	    while(i<index && cur.next!=null){
+	        cur = cur.next;
+	        i++;
+	    }
+	    return cur;
+	}
+}

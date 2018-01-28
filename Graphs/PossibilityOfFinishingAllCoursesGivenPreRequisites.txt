@@ -1,0 +1,65 @@
+public class Solution {
+    static ArrayList<ArrayList<Integer>> adj;
+    static Set<Integer> visited;
+    public int solve(int A, ArrayList<Integer> B, ArrayList<Integer> C) {
+        if(B.size()!=C.size()) return 0;
+        int n = A;
+         visited = new HashSet();
+         
+         adj = new ArrayList();
+         Map<Integer,Integer> incoming = new HashMap();
+        // Nodes are 1 based
+        for(int i=0;i<=n;i++){
+            adj.add(new ArrayList());
+            //Assume all incoming edges to be 0
+            incoming.put(i,0);
+        }
+        
+        
+        for(int i=0;i<B.size();i++){
+            int n1 = B.get(i);
+            int n2 = C.get(i);
+            adj.get(n1).add(n2);
+            if(incoming.containsKey(n2)){
+                incoming.put(n2,incoming.get(n2)+1);
+            }
+            else
+                incoming.put(n2,1);
+        }
+        
+        for(int i=1;i<=n;i++){
+            if(!visited.contains(i) && incoming.get(i)==0){
+                Set<Integer> myStack = new HashSet();
+                if(!dfs(i,myStack)) return 0;
+            }
+        }
+        
+        // Finally all courses should be visited
+        // This can happen if none of the course has incoming 0 -- dfs will not start
+        // That means there is a loop
+        return (visited.size()==n)?1:0;
+        
+    }
+    
+    boolean dfs(int index, Set<Integer> myStack){
+        
+        visited.add(index);
+        myStack.add(index);
+        ArrayList<Integer> neighbors = adj.get(index);
+        
+        for( int x : neighbors){
+            if(!visited.contains(x)){
+                if(!dfs(x,myStack)) return false;;
+            }
+            else{
+                // check for loop
+                if(myStack.contains(x))
+                    return false;
+            }    
+        }
+        myStack.remove(index);
+        return true;
+    }
+
+
+}

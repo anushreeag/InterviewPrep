@@ -1,0 +1,84 @@
+public class Solution {
+	public void solve(ArrayList<ArrayList<Character>> a) {
+	     int m = a.size()+2;
+	     int n = a.get(0).size()+2;
+	    //visited array
+	    boolean visited[][] = new boolean[m][n];
+	    
+	    char stars[][] = new char[m][n];
+	    
+	    // First Row 
+	    for(int j=0;j<n;j++){
+	        stars[0][j] = '*';   
+	    }
+	    
+	     // First Column
+	    for(int i=0;i<m;i++){
+	        stars[i][0] = '*';   
+	    }
+	    
+	    // last column
+	    for(int i=0;i<m;i++){
+	        stars[i][n-1] = '*';   
+	    }
+	    
+	    // Last Row 
+	    for(int j=0;j<n;j++){
+	        stars[m-1][j] = '*';   
+	    }
+	    
+	    // stars array is ready
+	    for(int i=1,k=0;i<m-1;i++,k++){
+	        for(int j=1,l=0;j<n-1;j++,l++){
+	            stars[i][j] = a.get(k).get(l);
+	        }
+	    }
+	    
+	    // dx , dy for all 4 directions
+	    int []dx = {-1,0,1,0};
+	    int []dy = {0,1,0,-1};
+	    
+	    // start bfs
+	    Queue<Integer> queue = new LinkedList();
+	    queue.add(0);
+	    queue.add(0);
+	    visited[0][0]=true;
+	    
+	    while(queue.size()>0){
+	        int x = queue.poll();
+	        int y = queue.poll();
+	        
+	        // check all 4 directions
+	        for(int i=0;i<4;i++){
+	            int nx = x + dx[i];
+	            int ny = y + dy[i];
+	            
+	            // we should not do bfs on X, do only on * and 0's
+	            if(isValid(nx,ny,m,n) && !visited[nx][ny] && stars[nx][ny]!='X'){
+	                visited[nx][ny] = true;
+	                queue.add(nx);
+	                queue.add(ny);
+	            }
+	        }
+	    }
+	    
+
+	    
+	    for(int i=1,k=0;i<m-1;i++,k++){
+	        for(int j=1,l=0;j<n-1;j++,l++){
+	            if(!visited[i][j] && stars[i][j]=='O'){
+	                a.get(k).set(l,'X');
+	            }
+	        }
+	    }
+	    
+	   
+	    
+	}
+	
+	boolean isValid(int nx, int ny, int m, int n){
+	    if(nx<0||ny<0||nx>=m||ny>=n) return false;
+	    return true;
+	    
+	}
+}
