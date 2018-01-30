@@ -1,0 +1,31 @@
+public class Solution {
+    public int minDistance(String A, String B) {
+        
+        int memo[][] = new int[A.length()][B.length()]; 
+        for(int []x: memo)
+            Arrays.fill(x,-1);
+        return calcChars(0,0,A,B,memo);
+    }
+    
+    
+   int calcChars(int i, int j, String A, String B,int [][]memo){
+        if(i>=A.length())
+            return B.length()-j;
+        else if(j>=B.length())
+            return A.length()-i;
+        
+        if(memo[i][j]!=-1) return memo[i][j];
+        // chars matched
+        if(A.charAt(i)==B.charAt(j))
+            return memo[i][j]=calcChars(i+1,j+1,A,B,memo);
+        int result = Integer.MAX_VALUE;
+          // delete 1 char in A and proceed further
+          result = Math.min(result,1+calcChars(i,j+1,A,B,memo));
+          // delete 1 char in B and proceed further
+          result = Math.min(result,1+calcChars(i+1,j,A,B,memo));
+          // replace 1 char in A/B and proceed further
+          result = Math.min(result, 1+calcChars(i+1,j+1,A,B,memo));
+          
+        return memo[i][j]=result;
+    }
+}

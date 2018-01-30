@@ -1,0 +1,18 @@
+public class Solution {
+    public int climbStairs(int A) {
+        int memo[] = new int[A+1];
+        Arrays.fill(memo,-1);
+        return getWays(A,memo);
+    }
+    
+    // No. of ways : to go to n steps : there are 2 ways : n-1 and n-2 only
+    int getWays(int n, int[] memo){
+        if(n==0) return 1;
+        if(n==1) return 1;
+        if(n==2) return 2 ; // there are only 2 ways for 2 steps
+        if(memo[n]!=-1) return memo[n];
+        
+        memo[n] = getWays(n-1,memo)+getWays(n-2,memo);
+        return memo[n];
+    }
+}
