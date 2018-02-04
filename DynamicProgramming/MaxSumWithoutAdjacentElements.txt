@@ -1,0 +1,25 @@
+public class Solution {
+    public int adjacent(ArrayList<ArrayList<Integer>> A) {
+        
+        
+        int n = A.size(); // rows
+        int m = A.get(0).size(); // no of columns
+        int memo[] = new int[m];
+        // No columns
+        if(m==0) return 0;
+        memo[0]= Math.max(A.get(0).get(0),A.get(1).get(0));
+        // if 1 Column
+        if(m==1) return memo[0];
+        
+        memo[1] = Math.max(memo[0],Math.max(A.get(0).get(1),A.get(1).get(1)));
+        if(m==2) return memo[1];
+        
+        for(int i=2;i<m;i++){
+          
+          memo[i]=Math.max(Math.max(A.get(0).get(i),A.get(1).get(i))+memo[i-2],memo[i-1]);
+        }
+        
+        return memo[m-1];
+        
+    }
+}

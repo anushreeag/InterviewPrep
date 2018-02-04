@@ -1,0 +1,38 @@
+public class Solution {
+    public int jump(ArrayList<Integer> A) {
+        int n = A.size();
+        int maxIndexReachable = 0;
+        int i=0;
+        
+        /*
+        2 pointer : i , MIR and NMIR
+        Divide the zones into 0 steps, 1 steps, 2 steps
+        Get the MIR in 0 steps
+        Get the MIR in 1 steps
+        Get MIR in 2 steps 
+        O(n)
+        Finally check if MIR >=lastIndex
+        
+        */
+        int ans = -1;
+        int steps = 0;
+        while(i<n){
+            int nextMaxIndexReachable = maxIndexReachable;
+            if(maxIndexReachable>=n-1) return steps;
+            while(i<=maxIndexReachable){
+                nextMaxIndexReachable = Math.max(nextMaxIndexReachable,i+A.get(i));
+                i++;
+            }
+            
+            if(maxIndexReachable==nextMaxIndexReachable) return -1;
+            
+            // when i has reached MIR, that means that is max Reachable from those many steps
+            // this marks end of zone
+            maxIndexReachable = nextMaxIndexReachable;
+            steps++;
+            
+        }
+        return ans;
+    }
+    
+}

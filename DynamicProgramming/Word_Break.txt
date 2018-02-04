@@ -1,0 +1,21 @@
+public class Solution {
+    public int wordBreak(String A, ArrayList<String> B) {
+        int n = A.length();
+        boolean []memo = new boolean[n+1];
+        memo[n]=true; // empty string
+        for(int i=n-1;i>=0;i--){
+            memo[i]=false;
+            for(int pos=0;pos+i<n;pos++){
+                    if(check(A.substring(i,pos+i+1),B) && memo[pos+i+1]){
+                        memo[i]=true;
+                        break;
+                    }
+            }
+        }
+        return (memo[0]?1:0);
+    }
+    
+    boolean check(String S, ArrayList<String> dict){
+        return dict.contains(S);
+    }
+}

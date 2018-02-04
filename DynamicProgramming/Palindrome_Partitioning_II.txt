@@ -1,0 +1,60 @@
+public class Solution {
+    public int minCut(String A) {
+        
+        int n = A.length();
+        // String length is 0
+        if(n==0) return 0;
+        int [][] memoPal = new int[n+1][n+1];
+        for(int [] x : memoPal)
+        Arrays.fill(x,-1);
+        
+        int [] memoStr = new int[n+1];
+        Arrays.fill(memoStr,-1);
+        
+        // No of pieces -1
+        return cutString(0,A,memoStr,memoPal)-1;
+    }
+    
+    
+    
+    
+    private int checkPalindrome(int start, int end , String A, int[][] memoPal){
+         if(start>end) return 1; // empty string
+         
+         if(memoPal[start][end]!=-1) return memoPal[start][end];
+         
+         if(A.charAt(start)==A.charAt(end))
+            return memoPal[start][end]=checkPalindrome(start+1,end-1,A,memoPal);
+            
+         return memoPal[start][end]=0;    
+    }
+    
+    
+    /*
+    returns min number pieces 1+cut 
+    */
+    
+    int cutString(int pos, String A, int[] memoStr, int [][]memoPal){
+        if(pos>=A.length()) return 0; // empty string
+        
+        if(memoStr[pos]!=-1) return memoStr[pos];
+        
+        int ans = -1;
+        // i : endIndex 
+        // the current palindrome start from pos and last character will at i
+        for(int i=pos;i<A.length();i++){
+            int cut = cutString(i+1,A,memoStr,memoPal);
+            
+            if((checkPalindrome(pos,i,A,memoPal)==1) && cut!=-1){
+                if(ans==-1)
+                    ans = 1+cut;
+                else
+                    ans = Math.min(ans,1+cut);
+            }
+        }
+        
+        return memoStr[pos]=ans;
+    }
+    
+    
+}

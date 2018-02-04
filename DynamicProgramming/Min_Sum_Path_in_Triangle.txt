@@ -1,0 +1,48 @@
+public class Solution {
+    /*
+    Algo :
+    find Min Path sum ending at every element in last row and Min of all sums
+    for every j in n, we have to find recursively what is the path sum ending at j
+    
+    */
+    
+	public int minimumTotal(ArrayList<ArrayList<Integer>> a) {
+	    boolean visited [][] = new boolean [a.size()+1][a.size()+1];
+	    int memo [][] = new int [a.size()+1][a.size()+1];
+	    int n = a.size();
+	    
+	    return MinPathSum(a.size()-1,a,memo,visited);
+	}
+ 
+	
+	int MinPathSum(int n, ArrayList<ArrayList<Integer>> a, int[][]memo,
+	            boolean [][]visited){
+	    int ans = Integer.MAX_VALUE;
+	    // Last row 
+	    for(int j=0;j<=n;j++) {
+	        
+	        ans = Math.min(ans, minPathSumEndingAt(n,j,a,memo,visited));
+	    }
+	    
+	    return ans;
+	}
+	int minPathSumEndingAt(int n, int j, ArrayList<ArrayList<Integer>> a, int [][]memo,
+	       boolean [][]visited ){
+	    if(n==0) return a.get(0).get(0);
+	    
+	    if(visited[n][j]) return memo[n][j]; 
+	    int ans = 0;
+	    int ans1 = Integer.MAX_VALUE;
+	    int ans2 = Integer.MAX_VALUE;
+	    if(j<=n-1){
+	        ans1 = minPathSumEndingAt(n-1,j,a,memo,visited);
+	    }
+	    if(j-1>=0){
+	      ans2 =  minPathSumEndingAt(n-1,j-1,a,memo,visited);
+	    }
+	    ans += a.get(n).get(j) + Math.min(ans1,ans2);
+	    visited[n][j]= true;
+	    return memo[n][j]=ans;
+	}
+	
+}
